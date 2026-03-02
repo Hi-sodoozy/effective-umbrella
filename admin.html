@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin – KTrain</title>
+  <link rel="stylesheet" href="styles-light.css" />
+  <link rel="stylesheet" href="styles-dashboard.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="brand"><div class="brand-mark"></div><span>KTrain</span></a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="admin.html">Admin</a></li>
+          <li><a href="index.html">Back to site</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-layout">
+    <section class="admin-section">
+      <h2>Enrolled users</h2>
+      <div id="adminUsers">
+        <p>Loading…</p>
+      </div>
+    </section>
+    <section class="admin-section">
+      <h2>MEQ 12-week course – Content</h2>
+      <p style="color: var(--ink-muted); margin-bottom: 1rem;">Edit and upload content per week. Placeholder for now; you can wire Edit/Add to Supabase or your CMS later.</p>
+      <div id="adminContent">
+        <!-- Filled by admin.js: Week 1–12 with content items; Week 1 has Overview, Technique, Question Bank -->
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

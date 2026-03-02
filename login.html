@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log in – KTrain</title>
+  <link rel="stylesheet" href="styles-light.css" />
+  <style>
+    .auth-page { max-width: 400px; margin: 4rem auto; padding: 0 1.5rem; }
+    .auth-page h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+    .auth-form .form-row { margin-bottom: 1rem; }
+    .auth-form label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+    .auth-form input { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 1rem; }
+    .auth-form .btn { width: 100%; margin-top: 0.5rem; }
+    .auth-form .error { color: #c53030; font-size: 0.9rem; margin-top: 0.5rem; }
+    .auth-form .link { margin-top: 1rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="brand"><div class="brand-mark"></div><span>KTrain</span></a>
+      <nav class="main-nav"><ul><li><a href="index.html">Home</a></li><li><a href="meq.html">MEQ Course</a></li><li><a href="signup.html" class="nav-cta">Sign up</a></li></ul></nav>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <h1>Log in</h1>
+    <form class="auth-form" id="loginForm">
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="form-row">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" />
+      </div>
+      <div id="loginError" class="error" role="alert"></div>
+      <button type="submit" class="btn">Log in</button>
+    </form>
+    <p class="link"><a href="signup.html">Don’t have an account? Sign up</a></p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = document.getElementById('loginError');
+      err.textContent = '';
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const params = new URLSearchParams(location.search);
+      const redirect = params.get('redirect') || 'dashboard.html';
+      try {
+        if (!window.ktrainAuth) throw new Error('Supabase not configured. Add your URL and anon key in js/supabase-config.js');
+        await window.ktrainAuth.signIn(email, password);
+        window.location.href = redirect;
+      } catch (x) {
+        err.textContent = x.message || 'Log in failed.';
+      }
+    });
+  </script>
+</body>
+</html>
