@@ -1,4 +1,4 @@
-/* styles-light.css – KTrain (light, easy, colourful) */
+/* styles-light.css – Education with Dr Katelyn Tadd (light, easy, colourful) */
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap');
 
@@ -76,17 +76,34 @@ img { max-width: 100%; height: auto; display: block; }
   align-items: center;
   gap: 0.75rem;
   color: var(--ink);
-  font-weight: 800;
-  font-size: 1.3rem;
   text-decoration: none;
 }
 .brand:hover { color: var(--primary); text-decoration: none; }
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.08;
+}
+
+.brand-text-primary {
+  font-weight: 900;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+.brand-text-secondary {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
 .brand-mark {
   width: 40px;
   height: 40px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  border-radius: var(--radius);
-  box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(224, 122, 95, 0.28);
 }
 .nav-user { font-weight: 600; color: var(--ink-muted); }
 .nav-logout { background: none; border: none; cursor: pointer; font: inherit; color: var(--ink-muted); padding: 0; }
