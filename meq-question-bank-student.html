@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MEQ Question Bank – Student</title>
+  <link rel="stylesheet" href="styles-light.css" />
+  <link rel="stylesheet" href="styles-dashboard.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <div class="brand-text-primary">Education</div>
+          <div class="brand-text-secondary">with Dr Katelyn Tadd</div>
+        </div>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="dashboard.html">Student Portal</a></li>
+          <li><a href="meq-question-bank-student.html" class="nav-cta">MEQ Question Bank</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="qb-layout">
+    <section>
+      <div class="qb-card">
+        <h2 style="margin: 0 0 0.75rem; font-size: 1.15rem;">Question bank</h2>
+        <div id="qbStudentQuestionList" class="qb-question-list">
+          <p style="color: var(--ink-light);">Loading questions…</p>
+        </div>
+      </div>
+    </section>
+
+    <aside>
+      <div class="qb-card">
+        <h2 style="margin: 0 0 0.75rem; font-size: 1.15rem;" id="studentQuestionTitle">Question</h2>
+
+        <div class="qb-prompt-preview" id="studentQuestionPrompt" aria-live="polite"></div>
+
+        <div class="qb-stopwatch">
+          <div class="qb-mode-row">
+            <label><input type="radio" name="qbMode" value="count_up" checked /> Count up</label>
+            <label><input type="radio" name="qbMode" value="count_down" /> Count down</label>
+          </div>
+
+          <div id="qbCountDownControls" class="qb-helper" style="margin-top: 0.75rem;">
+            Starting from:
+            <div class="qb-input-row" style="margin-top: 0.5rem;">
+              <input id="qbCountdownMinutes" class="qb-input" type="number" min="0" value="0" />
+              <input id="qbCountdownSeconds" class="qb-input" type="number" min="1" value="60" />
+            </div>
+          </div>
+
+          <div class="qb-stopwatch-display" id="qbStopwatchDisplay">00:00</div>
+          <div class="qb-stopwatch-actions">
+            <button id="qbStopwatchStartBtn" type="button" class="qb-btn">Start</button>
+            <button id="qbStopwatchPauseBtn" type="button" class="qb-btn">Pause</button>
+          </div>
+          <div class="qb-wordcount" id="qbStopwatchMeta"></div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label for="qbStudentResponse" style="font-weight: 900;">Your response (max 2000 words)</label>
+          <textarea id="qbStudentResponse" class="qb-textarea" placeholder="Type your response here…"></textarea>
+          <div class="qb-wordcount" id="qbWordCount">0 / 2000 words</div>
+          <div id="qbStudentSaveError" class="qb-error" role="alert" style="display: none;"></div>
+        </div>
+
+        <div class="qb-submit-row" style="margin-top: 1rem;">
+          <button id="qbStudentSaveBtn" type="button" class="btn">Save response</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/meq-question-bank-student.js"></script>
+</body>
+</html>
+

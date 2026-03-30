@@ -54,6 +54,7 @@
         <input type="password" id="password" name="password" required autocomplete="new-password" minlength="6" />
       </div>
       <div id="signupError" class="error" role="alert"></div>
+      <div id="signupHint" class="error" role="status" style="display:none;"></div>
       <button type="submit" class="btn">Sign up</button>
     </form>
     <p class="link"><a href="login.html">Already have an account? Log in</a></p>
@@ -66,7 +67,10 @@
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const err = document.getElementById('signupError');
+      const hint = document.getElementById('signupHint');
       err.textContent = '';
+      hint.style.display = 'none';
+      hint.textContent = '';
       const payload = {
         full_name: document.getElementById('full_name').value.trim(),
         email: document.getElementById('email').value.trim(),
@@ -76,8 +80,15 @@
       };
       try {
         if (!window.ktrainAuth) throw new Error('Supabase not configured. Add your URL and anon key in js/supabase-config.js');
-        await window.ktrainAuth.signUp(payload);
-        window.location.href = 'dashboard.html';
+        const res = await window.ktrainAuth.signUp(payload);
+
+        // If email confirmation is enabled, session may be null until user confirms.
+        if (res?.session) {
+          window.location.href = 'dashboard.html';
+        } else {
+          hint.style.display = 'block';
+          hint.textContent = 'Please confirm your email to access your student portal. Then log in.';
+        }
       } catch (x) {
         err.textContent = x.message || 'Sign up failed.';
       }

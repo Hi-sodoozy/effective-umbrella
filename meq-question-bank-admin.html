@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MEQ Question Bank – Admin Portal</title>
+  <link rel="stylesheet" href="styles-light.css" />
+  <link rel="stylesheet" href="styles-dashboard.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <div class="brand-text-primary">Education</div>
+          <div class="brand-text-secondary">with Dr Katelyn Tadd</div>
+        </div>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="dashboard.html">Student Portal</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+          <li><a href="meq-question-bank-admin.html" class="nav-cta">MEQ Question Bank</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="qb-layout">
+    <section>
+      <div class="qb-card qb-card-list qb-controls">
+        <div>
+          <label for="qbFilterTag">Filter by tag</label>
+        </div>
+        <select id="qbFilterTag" class="qb-select" aria-label="Filter by tag">
+          <option value="all">All tags</option>
+        </select>
+      </div>
+
+      <div id="qbQuestionList" class="qb-question-list qb-question-list--admin">
+        <p style="color: var(--ink-light);">Loading questions…</p>
+      </div>
+    </section>
+
+    <aside>
+      <div class="qb-card">
+        <h2 style="margin: 0 0 0.75rem; font-size: 1.15rem;">Add / Edit question</h2>
+
+        <div style="margin-bottom: 0.75rem;">
+          <label for="qbQuestionPrompt" style="font-weight: 900;">Question text</label>
+          <textarea id="qbQuestionPrompt" class="qb-textarea" placeholder="Enter the question text here…"></textarea>
+        </div>
+
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-weight: 900;">Filter Tag (required)</label>
+          <div class="qb-helper">Enter a tag, click “Add tag”, then select from the chosen tags.</div>
+          <div class="qb-input-row" style="margin-top: 0.5rem;">
+            <input id="qbNewTagText" class="qb-input" type="text" placeholder="e.g. Anxiety Disorders" />
+            <button id="qbAddTagBtn" type="button" class="qb-btn">Add tag</button>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.75rem;">
+          <label style="font-weight: 900;">Selected tags</label>
+          <div id="qbSelectedTags" class="qb-chip-row" aria-label="Selected tags"></div>
+          <div id="qbTagSelectHint" class="qb-helper" style="margin-top: 0.25rem;">
+            You can select multiple tags. At least one tag is required.
+          </div>
+        </div>
+
+        <div id="qbSaveError" class="qb-error" role="alert" style="display: none;"></div>
+
+        <div class="qb-submit-row">
+          <button id="qbSaveQuestionBtn" type="button" class="btn">Add question</button>
+          <button id="qbCancelEditBtn" type="button" class="btn btn-secondary" style="display: none;">Cancel</button>
+        </div>
+
+        <div id="qbSuccessNote" class="qb-helper" style="display: none; margin-top: 1rem; font-weight: 800;"></div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/meq-question-bank-admin.js"></script>
+</body>
+</html>
+
