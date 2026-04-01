@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-site-root="">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Education with Dr Katelyn Tadd – Psychiatry exam preparation</title>
+  <title>KTrain – Psychiatry exam preparation</title>
   <meta name="description" content="Focused MEQ aids and individual support to fast-track your psychiatry exam preparation." />
   <link rel="stylesheet" href="styles-light.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="site-header-inner">
-      <a href="index.html" class="brand">
+      <a href="./" class="brand">
         <div class="brand-mark" aria-hidden="true"></div>
-        <div class="brand-text">
-          <div class="brand-text-primary">Education</div>
-          <div class="brand-text-secondary">with Dr Katelyn Tadd</div>
-        </div>
+        <span>KTrain</span>
       </a>
 
       <input type="checkbox" id="navToggle" class="nav-toggle-input" aria-label="Toggle menu" />
@@ -25,17 +22,17 @@
 
       <nav class="main-nav">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="meq.html">MEQ Course</a></li>
-          <li><a href="index.html#courses">Courses</a></li>
+          <li><a href="./">Home</a></li>
+          <li><a href="meq/">MEQ Course</a></li>
+          <li><a href="./#courses">Courses</a></li>
           <li id="authNav">
             <span id="authLoggedOut">
-              <a href="login.html">Log in</a>
-              <a href="signup.html" class="nav-cta">Sign up</a>
+              <a href="login/">Log in</a>
+              <a href="signup/" class="nav-cta">Sign up</a>
             </span>
             <span id="authLoggedIn" style="display: none;">
               <span class="nav-user">Hi, <span id="headerUserName">—</span></span>
-              <a href="dashboard.html" class="nav-cta">My portal</a>
+              <a href="dashboard/" class="nav-cta">My portal</a>
               <button type="button" id="logoutBtn" class="nav-logout">Log out</button>
             </span>
           </li>
@@ -57,7 +54,7 @@
         <p>Online courses</p>
         <div class="course-links">
           <a href="#">MCQ <span class="coming-soon">(Coming soon)</span></a>
-          <a href="meq.html" class="available">MEQ</a>
+          <a href="meq/" class="available">MEQ</a>
           <a href="#">Scholarly Project <span class="coming-soon">(Coming soon)</span></a>
         </div>
       </div>
@@ -92,14 +89,14 @@
         <div class="cta-block" style="margin-top: 2.5rem;">
           <h2 class="section-title">Ready to focus on the MEQ?</h2>
           <p class="section-sub">Access study guides, practice exam questions, and audio and video aids in one place.</p>
-          <a href="meq.html" class="btn">View MEQ course</a>
+          <a href="meq/" class="btn">View MEQ course</a>
         </div>
       </div>
     </section>
 
     <section class="section" style="background: var(--bg-alt); padding: 3rem 0;">
       <div class="shell">
-        <h2 class="section-title">Why Education with Dr Katelyn Tadd?</h2>
+        <h2 class="section-title">Why KTrain?</h2>
         <p class="section-sub">Built for psychiatry trainees who want clarity and structure.</p>
         <ul class="feature-list">
           <li>Study guides aligned to the exam curriculum</li>
@@ -114,15 +111,16 @@
 
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <span class="footer-brand">Education with Dr Katelyn Tadd</span>
+      <span class="footer-brand">KTrain</span>
       <ul class="footer-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="meq.html">MEQ Course</a></li>
+        <li><a href="./">Home</a></li>
+        <li><a href="meq/">MEQ Course</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
     </div>
   </footer>
 
+  <script src="js/site-paths.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/auth.js"></script>
