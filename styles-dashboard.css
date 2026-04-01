@@ -294,3 +294,81 @@
   font-size: 0.95rem;
 }
 .course-admin-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+/* Admin dashboard hub */
+.admin-dash-layout { padding: 2rem 0 3rem; }
+.admin-dash-title { font-family: var(--font-head); font-size: 1.65rem; margin: 0 0 0.35rem; color: var(--ink); }
+.admin-dash-lead { color: var(--ink-muted); margin: 0 0 1.75rem; max-width: 40rem; line-height: 1.55; }
+.admin-dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+.admin-dash-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.35rem 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.admin-dash-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: inherit;
+}
+.admin-dash-card-title { font-weight: 800; font-size: 1.1rem; color: var(--primary); }
+.admin-dash-card-desc { font-size: 0.92rem; color: var(--ink-muted); line-height: 1.45; }
+
+/* MEQ question bank (admin + student) */
+.qb-admin-item {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.qb-admin-label { display: block; font-weight: 700; font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 0.35rem; }
+.qb-admin-textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  resize: vertical;
+}
+.qb-admin-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.qb-admin-check { font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+.qb-admin-actions { display: flex; gap: 0.35rem; }
+.qb-admin-add-wrap { margin-top: 0.5rem; }
+
+.qb-student-page { padding: 1.5rem 1.5rem 3rem; max-width: 720px; }
+.qb-student-intro { color: var(--ink-muted); line-height: 1.55; margin: 0 0 1.5rem; }
+.qb-student-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  margin-bottom: 1.5rem;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+}
+.qb-student-num { font-size: 1rem; margin: 0 0 0.75rem; color: var(--ink); }
+.qb-student-stem { margin-bottom: 1rem; line-height: 1.6; color: var(--ink); }
+.qb-student-empty { color: var(--ink-muted); }
+.qb-model-details { margin-top: 1rem; font-size: 0.95rem; }
+.qb-model-details summary { font-weight: 700; cursor: pointer; color: var(--primary); }
+.qb-model-body { margin-top: 0.75rem; padding: 1rem; background: var(--bg-alt); border-radius: var(--radius); line-height: 1.55; color: var(--ink); }

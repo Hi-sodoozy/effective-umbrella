@@ -21,7 +21,7 @@
   async function load() {
     const { data: { user } } = await client.auth.getUser();
     if (!user) {
-      const base = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.courseAdmin() : 'course-admin/';
+      const base = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.meqCourse() : 'meq-course/';
       const login = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.login() : 'login/';
       const target = window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/';
       window.location.href = login + '?redirect=' + encodeURIComponent(target);

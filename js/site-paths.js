@@ -26,6 +26,10 @@
     adminSignin: () => join('admin-signin/'),
     adminSignup: () => join('admin-signup/'),
     profile: () => join('profile/'),
-    courseAdmin: () => join('course-admin/')
+    courseAdmin: () => join('meq-course/'),
+    meqCourse: () => join('meq-course/'),
+    adminStudents: () => join('admin/students/'),
+    meqQuestionBankAdmin: () => join('meq-question-bank-admin/'),
+    meqQuestionBankStudent: () => join('meq-question-bank/')
   };
 })();

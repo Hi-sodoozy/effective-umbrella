@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin – KTrain</title>
+  <title>Admin dashboard – KTrain</title>
   <link rel="stylesheet" href="../styles-light.css" />
   <link rel="stylesheet" href="../styles-dashboard.css" />
 </head>
@@ -13,33 +13,42 @@
       <a href="../" class="brand"><div class="brand-mark"></div><span>KTrain</span></a>
       <nav class="main-nav">
         <ul>
-          <li><a href="../dashboard/">Dashboard</a></li>
-          <li><a href="../admin/">Admin</a></li>
-          <li><a href="../">Back to site</a></li>
+          <li><a href="../">Home</a></li>
+          <li><a href="../dashboard/">Student portal</a></li>
+          <li><a href="students/">Students</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main class="admin-layout">
-    <section class="admin-section">
-      <h2>Students</h2>
-      <p class="admin-section-hint">Set each student’s <strong>Exam date</strong> so their portal shows the correct day countdown.</p>
-      <div id="adminUsers">
-        <p>Loading…</p>
+  <main id="adminGuardRoot" class="admin-dash-layout" hidden>
+    <div class="shell">
+      <h1 class="admin-dash-title">Admin dashboard</h1>
+      <p class="admin-dash-lead">Choose a tool to manage the MEQ programme.</p>
+      <div class="admin-dash-grid">
+        <a href="students/" class="admin-dash-card">
+          <span class="admin-dash-card-title">Students</span>
+          <span class="admin-dash-card-desc">Exam dates, enrolments, and account list</span>
+        </a>
+        <a href="../meq-course/" class="admin-dash-card">
+          <span class="admin-dash-card-title">MEQ course content</span>
+          <span class="admin-dash-card-desc">Weekly links and resources for the 12-week course</span>
+        </a>
+        <a href="../meq-question-bank-admin/" class="admin-dash-card">
+          <span class="admin-dash-card-title">MEQ question bank</span>
+          <span class="admin-dash-card-desc">Create and publish practice questions and model answers</span>
+        </a>
       </div>
-    </section>
-    <section class="admin-section">
-      <h2>MEQ 12-week course – Content</h2>
-      <p style="color: var(--ink-muted); margin-bottom: 1rem;">Edit and upload content per week. Placeholder for now; you can wire Edit/Add to Supabase or your CMS later.</p>
-      <div id="adminContent"></div>
-    </section>
+    </div>
   </main>
 
   <script src="../js/site-paths.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
   <script src="../js/auth.js"></script>
-  <script src="../js/admin.js"></script>
+  <script src="../js/admin-guard.js"></script>
+  <script>
+    window.ktrainAdminGuard.init();
+  </script>
 </body>
 </html>
