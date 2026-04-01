@@ -72,6 +72,8 @@
         const row = btn.closest('tr');
         const input = row && row.querySelector('.admin-exam-input');
         const exam_date = input && input.value ? input.value : null;
+        const id = btn.getAttribute('data-user-id');
+        if (!id) return;
         const prev = btn.textContent;
         btn.disabled = true;
         const { error } = await client.from('profiles').update({ exam_date }).eq('id', id);

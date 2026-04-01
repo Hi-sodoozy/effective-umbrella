@@ -374,6 +374,17 @@ img { max-width: 100%; height: auto; display: block; }
   color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
 }
+.footer-links .footer-course-admin { margin-left: 0; }
+.footer-links .footer-course-admin a {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.42);
+  text-decoration: none;
+}
+.footer-links .footer-course-admin a:hover {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
 
 /* Page header */
 .page-header {
