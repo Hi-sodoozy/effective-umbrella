@@ -36,7 +36,9 @@
   async function load() {
     const { data: { user } } = await client.auth.getUser();
     if (!user) {
-      window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.pathname || 'dashboard.html');
+      const loginBase = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.login() : 'login/';
+      const back = window.location.pathname + window.location.search;
+      window.location.href = loginBase + '?redirect=' + encodeURIComponent(back);
       return;
     }
 
@@ -71,7 +73,6 @@
     const nameEl = document.getElementById('dashboardUserName');
     if (nameEl) nameEl.textContent = userName;
 
-    // Group content by week
     const byWeek = {};
     weekContent.forEach(c => {
       const weekNum = c.course_weeks?.week_number ?? c.week_id;
@@ -114,7 +115,6 @@
       }
     }
 
-    // To-do list (current week + previous weeks)
     const todosContainer = document.getElementById('sidebarTodos');
     if (todosContainer) {
       const todosForWeeks = todoTemplates.filter(t => (t.course_weeks?.week_number ?? 0) <= currentWeek);
@@ -146,19 +146,12 @@
   async function toggleTodo(todoId, completed) {
     const { data: { user } } = await client.auth.getUser();
     if (!user) return;
-    // todo_template_id is a UUID (not a number)
     const id = todoId;
     if (completed) {
-      await client.from('user_todo_completions').upsert(
-        { user_id: user.id, todo_template_id: id, completed_at: new Date().toISOString() },
-        { onConflict: 'user_id,todo_template_id' }
-      );
+      await client.from('user_todo_completions').upsert({ user_id: user.id, todo_template_id: id, completed_at: new Date().toISOString() }, { onConflict: 'user_id,todo_template_id' });
       completions[id] = true;
     } else {
-      await client.from('user_todo_completions')
-        .delete()
-        .eq('user_id', user.id)
-        .eq('todo_template_id', id);
+      await client.from('user_todo_completions').delete().eq('user_id', user.id).eq('todo_template_id', id);
       delete completions[id];
     }
     render();
@@ -167,7 +160,6 @@
   function renderWithFallback() {
     document.getElementById('examCountdown') && (document.getElementById('examCountdown').textContent = 'Configure Supabase to set exam date');
     document.getElementById('dashboardUserName') && (document.getElementById('dashboardUserName').textContent = 'there');
-
     const weeksContainer = document.getElementById('courseWeeks');
     if (weeksContainer) {
       weeksContainer.innerHTML = '';
@@ -194,7 +186,6 @@
         weeksContainer.appendChild(weekEl);
       }
     }
-
     const todosContainer = document.getElementById('sidebarTodos');
     if (todosContainer) {
       todosContainer.innerHTML = `
@@ -211,4 +202,3 @@
     load().catch(e => { console.error(e); renderWithFallback(); });
   }
 })();
-

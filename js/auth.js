@@ -29,22 +29,16 @@
         }
       });
       if (error) throw error;
-
       if (data.user) {
-        // Create or update the user profile row used by the dashboard.
-        await client.from('profiles').upsert(
-          {
-            id: data.user.id,
-            full_name: full_name || data.user.user_metadata?.full_name,
-            email: data.user.email,
-            phone: phone || data.user.user_metadata?.phone,
-            college_id: college_id || data.user.user_metadata?.college_id,
-            role: 'user'
-          },
-          { onConflict: 'id' }
-        );
+        await client.from('profiles').upsert({
+          id: data.user.id,
+          full_name: full_name || data.user.user_metadata?.full_name,
+          email: data.user.email,
+          phone: phone || data.user.user_metadata?.phone,
+          college_id: college_id || data.user.user_metadata?.college_id,
+          role: 'user'
+        }, { onConflict: 'id' });
       }
-
       return data;
     },
 
@@ -63,4 +57,3 @@
     }
   };
 })();
-

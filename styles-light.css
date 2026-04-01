@@ -1,4 +1,4 @@
-/* styles-light.css – Education with Dr Katelyn Tadd (light, easy, colourful) */
+/* styles-light.css – KTrain (light, easy, colourful) */
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap');
 
@@ -46,6 +46,22 @@ a { color: var(--primary); text-decoration: none; }
 a:hover { color: var(--primary-dark); text-decoration: underline; }
 img { max-width: 100%; height: auto; display: block; }
 
+/* Log in page: peach full-stop link to staff sign-in */
+.login-admin-dot {
+  display: inline;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin-left: 1px;
+}
+.login-admin-dot:hover,
+.login-admin-dot:focus {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
 .shell {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -76,33 +92,17 @@ img { max-width: 100%; height: auto; display: block; }
   align-items: center;
   gap: 0.75rem;
   color: var(--ink);
+  font-weight: 800;
+  font-size: 1.3rem;
   text-decoration: none;
 }
 .brand:hover { color: var(--primary); text-decoration: none; }
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.08;
-}
-
-.brand-text-primary {
-  font-weight: 900;
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
-}
-
-.brand-text-secondary {
-  font-weight: 800;
-  font-size: 0.85rem;
-  color: var(--ink-muted);
-}
-
 .brand-mark {
   width: 40px;
   height: 40px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  border-radius: 999px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
 }
 .nav-user { font-weight: 600; color: var(--ink-muted); }
 .nav-logout { background: none; border: none; cursor: pointer; font: inherit; color: var(--ink-muted); padding: 0; }
@@ -126,6 +126,7 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--bg) !important;
   padding: 0.55rem 1.1rem;
   border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(224, 122, 95, 0.35);
 }
 .main-nav .nav-cta:hover { background: var(--primary-dark); color: var(--bg) !important; }
 @media (max-width: 700px) {
@@ -299,7 +300,8 @@ img { max-width: 100%; height: auto; display: block; }
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 1rem;
-  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 16px rgba(224, 122, 95, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 .btn:hover { background: var(--primary-dark); color: #fff; text-decoration: none; transform: translateY(-2px); }
 .btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); box-shadow: none; }

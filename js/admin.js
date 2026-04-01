@@ -8,13 +8,16 @@
   async function load() {
     const { data: { user } } = await client.auth.getUser();
     if (!user) {
-      window.location.href = 'login.html?redirect=admin.html';
+      const adminUrl = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.admin() : 'admin/';
+      const loginBase = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.login() : 'login/';
+      window.location.href = loginBase + '?redirect=' + encodeURIComponent(adminUrl);
       return;
     }
 
     const { data: profile } = await client.from('profiles').select('role').eq('id', user.id).single();
     if (profile?.role !== 'admin') {
-      document.body.innerHTML = '<p>Access denied. Admin only.</p><a href="dashboard.html">Back to dashboard</a>';
+      const dash = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.dashboard() : 'dashboard/';
+      document.body.innerHTML = '<p>Access denied. Admin only.</p><a href="' + dash + '">Back to dashboard</a>';
       return;
     }
 
@@ -26,14 +29,18 @@
 
     const enrollments = (enrollRes.data || []).filter(e => e.course_id === 'meq-12');
     const enrolledIds = new Set(enrollments.map(e => e.user_id));
+    const users = (usersRes.data || []).filter(p => p.role !== 'admin').map(p => ({
+      ...p,
+      enrolled: enrolledIds.has(p.id),
+      start_date: enrollments.find(e => e.user_id === p.id)?.start_date
+    }));
 
-    const users = (usersRes.data || [])
-      .filter(p => p.role !== 'admin')
-      .map(p => ({
-        ...p,
-        enrolled: enrolledIds.has(p.id),
-        start_date: enrollments.find(e => e.user_id === p.id)?.start_date
-      }));
+    const byWeek = {};
+    (contentRes.data || []).forEach(c => {
+      const w = c.course_weeks?.week_number ?? c.week_id;
+      if (!byWeek[w]) byWeek[w] = [];
+      byWeek[w].push(c);
+    });
 
     const usersEl = document.getElementById('adminUsers');
     if (usersEl) {
@@ -60,10 +67,7 @@
     if (contentEl) {
       let html = '';
       for (let w = 1; w <= 12; w++) {
-        const items = (contentRes.data || [])
-          .filter(c => (c.course_weeks?.week_number ?? c.week_id) === w)
-          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-
+        const items = (byWeek[w] || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
         html += `
           <div class="admin-week">
             <h3>Week ${w}</h3>
@@ -96,4 +100,3 @@
     load();
   }
 })();
-
