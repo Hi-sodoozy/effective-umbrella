@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-site-root="..">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin sign up – KTrain</title>
+  <link rel="stylesheet" href="../styles-light.css" />
+  <style>
+    .auth-page { max-width: 420px; margin: 4rem auto; padding: 0 1.5rem; }
+    .auth-page h1 { font-size: 1.5rem; margin-bottom: 0.35rem; }
+    .auth-page .auth-lead { color: var(--ink-muted); font-size: 0.95rem; margin: 0 0 1.25rem; line-height: 1.5; }
+    .auth-form .form-row { margin-bottom: 1rem; }
+    .auth-form label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+    .auth-form input { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 1rem; }
+    .auth-form .btn { width: 100%; margin-top: 0.5rem; }
+    .auth-form .error { color: #c53030; font-size: 0.9rem; margin-top: 0.5rem; }
+    .auth-form .success { color: var(--accent); font-size: 0.9rem; margin-top: 0.5rem; font-weight: 600; }
+    .auth-form .link { margin-top: 1rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="../" class="brand"><div class="brand-mark"></div><span>KTrain</span></a>
+      <nav class="main-nav"><ul><li><a href="../">Home</a></li><li><a href="../login/">Log in</a></li></ul></nav>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <div id="gatePanel">
+      <h1>Admin sign up</h1>
+      <p class="auth-lead">Enter the page password to continue.</p>
+      <form class="auth-form" id="gateForm">
+        <div class="form-row">
+          <label for="pagePassword">Page password</label>
+          <input type="password" id="pagePassword" name="pagePassword" required autocomplete="off" />
+        </div>
+        <div id="gateError" class="error" role="alert"></div>
+        <button type="submit" class="btn">Continue</button>
+      </form>
+      <p class="link"><a href="../">Home</a></p>
+    </div>
+
+    <div id="signupPanel" hidden>
+    <h1>Admin sign up</h1>
+    <p class="auth-lead">Create an administrator account for the course portal. After signing up, use <strong>Admin sign in</strong> (staff path) to open the admin area.</p>
+    <form class="auth-form" id="adminSignupForm">
+      <div class="form-row">
+        <label for="full_name">Name</label>
+        <input type="text" id="full_name" name="full_name" required autocomplete="name" />
+      </div>
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="form-row">
+        <label for="phone">Phone number</label>
+        <input type="tel" id="phone" name="phone" required autocomplete="tel" />
+      </div>
+      <div class="form-row">
+        <label for="college_id">College ID</label>
+        <input type="text" id="college_id" name="college_id" required />
+      </div>
+      <div class="form-row">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="new-password" minlength="6" />
+      </div>
+      <div id="signupError" class="error" role="alert"></div>
+      <div id="signupSuccess" class="success" role="status"></div>
+      <button type="submit" class="btn">Create admin account</button>
+    </form>
+    <p class="link"><a href="../login/">Student log in</a> · <a href="../admin-signin/">Admin sign in</a></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span class="footer-brand">KTrain</span>
+      <ul class="footer-links">
+        <li><a href="../">Home</a></li>
+        <li><a href="../meq/">MEQ Course</a></li>
+        <li class="footer-admin-signup"><a href="../admin-signup/">Admin sign up</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="../js/site-paths.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    (function () {
+      var GATE_STORAGE = 'ktrain_admin_signup_gate_ok';
+      var PAGE_PASSWORD = 'Gus';
+
+      var gatePanel = document.getElementById('gatePanel');
+      var signupPanel = document.getElementById('signupPanel');
+
+      function showSignup() {
+        gatePanel.hidden = true;
+        signupPanel.hidden = false;
+      }
+
+      if (sessionStorage.getItem(GATE_STORAGE) === '1') {
+        showSignup();
+      }
+
+      document.getElementById('gateForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var err = document.getElementById('gateError');
+        err.textContent = '';
+        var v = document.getElementById('pagePassword').value;
+        if (v === PAGE_PASSWORD) {
+          sessionStorage.setItem(GATE_STORAGE, '1');
+          showSignup();
+        } else {
+          err.textContent = 'That password is not correct.';
+        }
+      });
+
+      document.getElementById('adminSignupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (sessionStorage.getItem(GATE_STORAGE) !== '1') {
+          signupPanel.hidden = true;
+          gatePanel.hidden = false;
+          return;
+        }
+        const err = document.getElementById('signupError');
+        const ok = document.getElementById('signupSuccess');
+        err.textContent = '';
+        ok.textContent = '';
+        const payload = {
+          full_name: document.getElementById('full_name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          college_id: document.getElementById('college_id').value.trim(),
+          password: document.getElementById('password').value
+        };
+        try {
+          if (!window.ktrainAuth || !window.ktrainAuth.signUpAdmin) throw new Error('Supabase not configured.');
+          const result = await window.ktrainAuth.signUpAdmin(payload);
+          const adminUrl = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.admin() : '../admin/';
+          if (!result?.session) {
+            ok.textContent = 'Check your email to confirm your account. Then use Admin sign in and your password to open the admin portal.';
+            return;
+          }
+          window.location.href = adminUrl;
+        } catch (x) {
+          err.textContent = x.message || 'Sign up failed.';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

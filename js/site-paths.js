@@ -23,6 +23,7 @@
     dashboard: () => join('dashboard/'),
     admin: () => join('admin/'),
     meq: () => join('meq/'),
-    adminSignin: () => join('admin-signin/')
+    adminSignin: () => join('admin-signin/'),
+    adminSignup: () => join('admin-signup/')
   };
 })();

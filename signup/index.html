@@ -71,7 +71,11 @@
       };
       try {
         if (!window.ktrainAuth) throw new Error('Supabase not configured. Add your URL and anon key in js/supabase-config.js');
-        await window.ktrainAuth.signUp(payload);
+        const result = await window.ktrainAuth.signUp(payload);
+        if (!result?.session) {
+          err.textContent = 'Check your email to confirm your account, then log in.';
+          return;
+        }
         const dash = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.dashboard() : '../dashboard/';
         window.location.href = dash;
       } catch (x) {
