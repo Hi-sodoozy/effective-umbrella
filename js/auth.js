@@ -27,6 +27,17 @@
       return data;
     },
 
+    async updateProfile(userId, fields) {
+      const { full_name, phone, college_id } = fields;
+      const patch = {};
+      if (full_name !== undefined) patch.full_name = full_name;
+      if (phone !== undefined) patch.phone = phone;
+      if (college_id !== undefined) patch.college_id = college_id;
+      const { data, error } = await client.from('profiles').update(patch).eq('id', userId).select().single();
+      if (error) throw error;
+      return data;
+    },
+
     async signUp({ email, password, full_name, phone, college_id }) {
       const { data, error } = await client.auth.signUp({
         email,

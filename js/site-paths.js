@@ -24,6 +24,7 @@
     admin: () => join('admin/'),
     meq: () => join('meq/'),
     adminSignin: () => join('admin-signin/'),
-    adminSignup: () => join('admin-signup/')
+    adminSignup: () => join('admin-signup/'),
+    profile: () => join('profile/')
   };
 })();
