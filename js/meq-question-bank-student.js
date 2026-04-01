@@ -1,7 +1,7 @@
 (function () {
   const client = window.ktrainSupabase;
   const rootId = 'meqQbStudentRoot';
-  const EXAM_SECONDS = 2.5 * 60 * 60;
+  const DEFAULT_EXAM_SECONDS = 2.5 * 60 * 60;
 
   function escapeHtml(s) {
     const div = document.createElement('div');
@@ -125,11 +125,14 @@
       listEl.innerHTML = rows.map((q, idx) => {
         const stem = firstNonEmpty(q.stem, q.prompt_text);
         const done = hasAnswered(byQ[q.id]);
+        const subtleTag = (q.tags && q.tags[0]) ? q.tags[0] : '';
         return `
           <article class="qb-student-card ${done ? 'qb-student-card--done' : ''}" data-id="${escapeAttr(q.id)}">
-            <h3 class="qb-student-num">Question ${idx + 1}</h3>
+            <div class="qb-student-meta">
+              <h3 class="qb-student-num">Question ${idx + 1}</h3>
+              ${subtleTag ? `<span class="qb-student-tag-inline">${escapeHtml(subtleTag)}</span>` : ''}
+            </div>
             <div class="qb-student-stem">${escapeHtml(stem).replace(/\n/g, '<br />')}</div>
-            <div class="qb-student-tags">${(q.tags || []).map((t) => `<span class="qb-tag">${escapeHtml(t)}</span>`).join('')}</div>
             <button type="button" class="btn btn-small js-qb-choose"${done ? ' disabled' : ''}>${done ? 'Answered' : 'Choose this question'}</button>
           </article>
         `;
@@ -185,7 +188,10 @@
     root.innerHTML = `
       <p><a href="${pathNoQuery()}">← Back to question bank</a></p>
       <article class="qb-student-card" data-id="${escapeAttr(question.id)}">
-        <h3 class="qb-student-num">Question</h3>
+        <div class="qb-student-meta">
+          <h3 class="qb-student-num">Question</h3>
+          ${(question.tags && question.tags[0]) ? `<span class="qb-student-tag-inline">${escapeHtml(question.tags[0])}</span>` : ''}
+        </div>
         <div class="qb-student-stem">${escapeHtml(stem).replace(/\n/g, '<br />')}</div>
         <label class="qb-admin-label">Your response</label>
         <textarea class="qb-admin-textarea qb-response" rows="10" placeholder="Write your answer here…">${escapeHtml(savedText || '')}</textarea>
@@ -222,7 +228,10 @@
       <div class="qb-practice-head">
         <h2>Practice exam</h2>
         <div class="qb-practice-timer-wrap">
-          <div id="qbPracticeTimer" class="qb-practice-timer">${formatTimer(EXAM_SECONDS)}</div>
+          <div class="qb-timer-line">
+            <div id="qbPracticeTimer" class="qb-practice-timer">${formatTimer(DEFAULT_EXAM_SECONDS)}</div>
+            <button type="button" id="qbTimerEdit" class="btn btn-secondary qb-timer-edit-btn">Edit</button>
+          </div>
           <div class="qb-practice-controls">
             <button type="button" class="btn btn-small" id="qbTimerStart">Start</button>
             <button type="button" class="btn btn-small btn-secondary" id="qbTimerPause">Pause</button>
@@ -234,7 +243,10 @@
       <div id="qbPracticeWrap" class="qb-practice-wrap">
         ${chosen.map((q, i) => `
           <article class="qb-student-card" data-id="${escapeAttr(q.id)}">
-            <h3 class="qb-student-num">Question ${i + 1}</h3>
+            <div class="qb-student-meta">
+              <h3 class="qb-student-num">Question ${i + 1}</h3>
+              ${(q.tags && q.tags[0]) ? `<span class="qb-student-tag-inline">${escapeHtml(q.tags[0])}</span>` : ''}
+            </div>
             <div class="qb-student-stem">${escapeHtml(firstNonEmpty(q.stem, q.prompt_text)).replace(/\n/g, '<br />')}</div>
             <label class="qb-admin-label">Answer</label>
             <textarea class="qb-admin-textarea qb-practice-answer" rows="8">${escapeHtml(byQ[q.id] || '')}</textarea>
@@ -261,7 +273,8 @@
       setTimeout(() => { btn.textContent = prev; }, 1200);
     });
 
-    let remaining = EXAM_SECONDS;
+    let baseSeconds = DEFAULT_EXAM_SECONDS;
+    let remaining = baseSeconds;
     let ticker = null;
     const timerEl = root.querySelector('#qbPracticeTimer');
     const wrapEl = root.querySelector('#qbPracticeWrap');
@@ -296,7 +309,21 @@
     root.querySelector('#qbTimerStop').addEventListener('click', stopTimer);
     root.querySelector('#qbTimerReset').addEventListener('click', () => {
       stopTimer();
-      remaining = EXAM_SECONDS;
+      remaining = baseSeconds;
+      paintTimer();
+    });
+    root.querySelector('#qbTimerEdit').addEventListener('click', () => {
+      const currentMins = Math.round(baseSeconds / 60);
+      const v = window.prompt('Set timer length in minutes:', String(currentMins));
+      if (v == null) return;
+      const mins = Number(v);
+      if (!Number.isFinite(mins) || mins <= 0) {
+        alert('Please enter a valid number of minutes.');
+        return;
+      }
+      stopTimer();
+      baseSeconds = Math.round(mins * 60);
+      remaining = baseSeconds;
       paintTimer();
     });
   }

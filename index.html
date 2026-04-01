@@ -23,8 +23,12 @@
       <nav class="main-nav">
         <ul>
           <li><a href="./">Home</a></li>
-          <li><a href="meq/">MEQ Course</a></li>
-          <li><a href="./#courses">Courses</a></li>
+          <li class="nav-has-submenu">
+            <a href="./#courses">Courses</a>
+            <ul class="nav-submenu">
+              <li><a href="meq/">MEQ Course</a></li>
+            </ul>
+          </li>
           <li id="authNav">
             <span id="authLoggedOut">
               <a href="login/">Log in</a>
@@ -33,7 +37,6 @@
             <span id="authLoggedIn" style="display: none;">
               <span class="nav-user">Hi, <span id="headerUserName">—</span></span>
               <a href="dashboard/" class="nav-cta">My portal</a>
-              <a href="profile/">My profile</a>
             </span>
           </li>
         </ul>
@@ -51,9 +54,11 @@
 
     <section class="courses-strip" id="courses">
       <div class="shell">
-        <p>Course</p>
+        <p>Courses</p>
         <div class="course-links">
-          <a href="meq/" class="available">MEQ</a>
+          <a href="meq/" class="available">MEQ - 12 Weeks</a>
+          <a href="#" aria-disabled="true">MEQ - 8 Weeks</a>
+          <a href="#" aria-disabled="true">MEQ - 4 Weeks</a>
         </div>
       </div>
     </section>

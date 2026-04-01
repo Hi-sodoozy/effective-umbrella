@@ -325,6 +325,12 @@
 }
 .admin-dash-card-title { font-weight: 800; font-size: 1.1rem; color: var(--primary); }
 .admin-dash-card-desc { font-size: 0.92rem; color: var(--ink-muted); line-height: 1.45; }
+.admin-dash-card--placeholder {
+  border-style: dashed;
+  box-shadow: none;
+  cursor: default;
+}
+.admin-dash-card--placeholder:hover { transform: none; box-shadow: none; }
 
 /* MEQ question bank (admin + student) */
 .qb-admin-item {
@@ -383,7 +389,20 @@
   box-shadow: var(--shadow);
 }
 .qb-student-num { font-size: 1rem; margin: 0 0 0.75rem; color: var(--ink); }
+.qb-student-meta { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.75rem; }
+.qb-student-meta .qb-student-num { margin: 0; }
+.qb-student-tag-inline {
+  font-size: 0.76rem;
+  color: var(--ink-light);
+  font-weight: 600;
+}
 .qb-student-stem { margin-bottom: 1rem; line-height: 1.6; color: var(--ink); }
+.qb-student-stem,
+.qb-student-num,
+.qb-student-tag-inline {
+  user-select: none;
+  -webkit-user-select: none;
+}
 .qb-student-card--done {
   opacity: 0.6;
   background: #f4f4f4;
@@ -417,6 +436,8 @@
   font-weight: 700;
   color: var(--primary);
 }
+.qb-timer-line { display: flex; align-items: center; gap: 0.4rem; }
+.qb-timer-edit-btn { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
 .qb-practice-controls { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: flex-end; }
 .qb-practice-wrap {
   position: relative;
