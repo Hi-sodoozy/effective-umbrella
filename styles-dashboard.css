@@ -154,6 +154,16 @@
 .admin-layout { max-width: var(--max-width); margin: 0 auto; padding: 1.5rem; }
 .admin-section { margin-bottom: 2.5rem; }
 .admin-section h2 { font-size: 1.25rem; margin: 0 0 1rem; }
+.admin-section-hint { font-size: 0.9rem; color: var(--ink-muted); margin: -0.5rem 0 1rem; max-width: 40rem; line-height: 1.5; }
+.admin-exam-cell { white-space: nowrap; }
+.admin-exam-cell .admin-exam-input {
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-right: 0.35rem;
+  max-width: 11rem;
+}
 .admin-table {
   width: 100%;
   border-collapse: collapse;

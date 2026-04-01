@@ -51,11 +51,9 @@
 
     <section class="courses-strip" id="courses">
       <div class="shell">
-        <p>Online courses</p>
+        <p>Course</p>
         <div class="course-links">
-          <a href="#">MCQ <span class="coming-soon">(Coming soon)</span></a>
           <a href="meq/" class="available">MEQ</a>
-          <a href="#">Scholarly Project <span class="coming-soon">(Coming soon)</span></a>
         </div>
       </div>
     </section>
@@ -135,7 +133,9 @@
         if (user && profile) {
           loggedOut.style.display = 'none';
           loggedIn.style.display = 'inline';
-          if (nameEl) nameEl.textContent = profile.full_name || user.email || 'there';
+          if (nameEl) nameEl.textContent = window.ktrainAuth.firstName
+            ? window.ktrainAuth.firstName(profile)
+            : (profile.full_name || 'there');
         } else {
           loggedOut.style.display = 'inline';
           loggedIn.style.display = 'none';

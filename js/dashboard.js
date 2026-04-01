@@ -22,15 +22,21 @@
     return Math.max(1, Math.min(12, weeks));
   }
 
+  function parseLocalDate(dateStr) {
+    if (!dateStr) return null;
+    const m = String(dateStr).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    const d = new Date(dateStr);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+
   function daysUntilExam() {
-    const examDate = profile?.exam_date;
-    if (!examDate) return null;
-    const exam = new Date(examDate);
+    const exam = parseLocalDate(profile?.exam_date);
+    if (!exam) return null;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     exam.setHours(0, 0, 0, 0);
-    const diff = Math.ceil((exam - today) / (1000 * 60 * 60 * 24));
-    return diff;
+    return Math.ceil((exam - today) / (1000 * 60 * 60 * 24));
   }
 
   async function load() {
@@ -62,16 +68,27 @@
   function render() {
     const currentWeek = getCurrentWeek();
     const days = daysUntilExam();
-    const userName = profile?.full_name || 'there';
+    const first = window.ktrainAuth?.firstName
+      ? window.ktrainAuth.firstName(profile)
+      : ((profile?.full_name || '').trim().split(/\s+/)[0] || 'there');
 
     const countdownEl = document.getElementById('examCountdown');
     if (countdownEl) {
-      if (days !== null) countdownEl.textContent = days > 0 ? `${days} days until your exam` : days === 0 ? 'Exam is today' : 'Exam date has passed';
-      else countdownEl.textContent = 'Set your exam date in your profile';
+      if (days !== null) {
+        if (days > 0) {
+          countdownEl.textContent = days === 1 ? '1 day until your exam' : `${days} days until your exam`;
+        } else if (days === 0) {
+          countdownEl.textContent = 'Exam is today';
+        } else {
+          countdownEl.textContent = 'Exam date has passed';
+        }
+      } else {
+        countdownEl.textContent = 'Your exam date is not set yet—it will appear here once your administrator adds it.';
+      }
     }
 
     const nameEl = document.getElementById('dashboardUserName');
-    if (nameEl) nameEl.textContent = userName;
+    if (nameEl) nameEl.textContent = first;
 
     const byWeek = {};
     weekContent.forEach(c => {
@@ -158,7 +175,7 @@
   }
 
   function renderWithFallback() {
-    document.getElementById('examCountdown') && (document.getElementById('examCountdown').textContent = 'Configure Supabase to set exam date');
+    document.getElementById('examCountdown') && (document.getElementById('examCountdown').textContent = 'Connect Supabase in js/supabase-config.js to load your course and exam countdown.');
     document.getElementById('dashboardUserName') && (document.getElementById('dashboardUserName').textContent = 'there');
     const weeksContainer = document.getElementById('courseWeeks');
     if (weeksContainer) {

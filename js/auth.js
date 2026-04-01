@@ -9,6 +9,13 @@
   window.ktrainAuth = {
     client,
 
+    /** First word of full_name for greetings; falls back to "there" if empty. */
+    firstName(profile) {
+      const raw = (profile?.full_name || '').trim();
+      if (!raw) return 'there';
+      return raw.split(/\s+/)[0];
+    },
+
     async getSession() {
       const { data: { session } } = await client.auth.getSession();
       return session;

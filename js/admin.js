@@ -22,7 +22,7 @@
     }
 
     const [usersRes, enrollRes, contentRes] = await Promise.all([
-      client.from('profiles').select('id, full_name, email, phone, college_id, role').order('full_name'),
+      client.from('profiles').select('id, full_name, email, phone, college_id, role, exam_date').order('full_name'),
       client.from('enrollments').select('user_id, course_id, start_date'),
       client.from('week_content').select('*, course_weeks(week_number)').order('week_id').order('sort_order')
     ]);
@@ -46,7 +46,7 @@
     if (usersEl) {
       usersEl.innerHTML = `
         <table class="admin-table">
-          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>College ID</th><th>Enrolled</th><th>Start date</th></tr></thead>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>College ID</th><th>Exam date</th><th>Enrolled</th><th>Start date</th></tr></thead>
           <tbody>
             ${users.map(u => `
               <tr>
@@ -54,6 +54,10 @@
                 <td>${escapeHtml(u.email || '—')}</td>
                 <td>${escapeHtml(u.phone || '—')}</td>
                 <td>${escapeHtml(u.college_id || '—')}</td>
+                <td class="admin-exam-cell">
+                  <input type="date" class="admin-exam-input" data-user-id="${escapeHtml(u.id)}" value="${u.exam_date ? escapeHtml(String(u.exam_date).slice(0, 10)) : ''}" />
+                  <button type="button" class="btn btn-secondary btn-small js-save-exam" data-user-id="${escapeHtml(u.id)}">Save</button>
+                </td>
                 <td>${u.enrolled ? 'Yes' : 'No'}</td>
                 <td>${u.start_date ? u.start_date : '—'}</td>
               </tr>
@@ -61,6 +65,24 @@
           </tbody>
         </table>
       `;
+
+      usersEl.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.js-save-exam');
+        if (!btn || !usersEl.contains(btn)) return;
+        const row = btn.closest('tr');
+        const input = row && row.querySelector('.admin-exam-input');
+        const exam_date = input && input.value ? input.value : null;
+        const prev = btn.textContent;
+        btn.disabled = true;
+        const { error } = await client.from('profiles').update({ exam_date }).eq('id', id);
+        btn.disabled = false;
+        if (error) {
+          alert(error.message);
+          return;
+        }
+        btn.textContent = 'Saved';
+        setTimeout(() => { btn.textContent = prev; }, 2000);
+      });
     }
 
     const contentEl = document.getElementById('adminContent');
