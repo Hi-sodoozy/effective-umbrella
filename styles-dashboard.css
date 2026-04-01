@@ -355,9 +355,25 @@
 .qb-admin-check { font-size: 0.9rem; font-weight: 600; cursor: pointer; }
 .qb-admin-actions { display: flex; gap: 0.35rem; }
 .qb-admin-add-wrap { margin-top: 0.5rem; }
+.qb-admin-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
 
 .qb-student-page { padding: 1.5rem 1.5rem 3rem; max-width: 720px; }
 .qb-student-intro { color: var(--ink-muted); line-height: 1.55; margin: 0 0 1.5rem; }
+.qb-student-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(180px, 220px) auto auto;
+  gap: 0.75rem;
+  align-items: end;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 900px) {
+  .qb-student-toolbar { grid-template-columns: 1fr; }
+}
 .qb-student-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -368,7 +384,62 @@
 }
 .qb-student-num { font-size: 1rem; margin: 0 0 0.75rem; color: var(--ink); }
 .qb-student-stem { margin-bottom: 1rem; line-height: 1.6; color: var(--ink); }
+.qb-student-card--done {
+  opacity: 0.6;
+  background: #f4f4f4;
+}
+.qb-student-tags { margin: 0 0 0.9rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.qb-tag {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+}
 .qb-student-empty { color: var(--ink-muted); }
 .qb-model-details { margin-top: 1rem; font-size: 0.95rem; }
 .qb-model-details summary { font-weight: 700; cursor: pointer; color: var(--primary); }
 .qb-model-body { margin-top: 0.75rem; padding: 1rem; background: var(--bg-alt); border-radius: var(--radius); line-height: 1.55; color: var(--ink); }
+
+.qb-practice-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.qb-practice-timer-wrap { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; }
+.qb-practice-timer {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.qb-practice-controls { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: flex-end; }
+.qb-practice-wrap {
+  position: relative;
+  border-radius: var(--radius-lg);
+  transition: background-color 0.2s;
+}
+.qb-practice-wrap--timesup {
+  background: #000;
+  padding: 0.5rem;
+}
+.qb-practice-wrap--timesup .qb-student-card {
+  background: #111;
+  color: #fff;
+  border-color: #1f1f1f;
+}
+.qb-timesup-popup {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: #111;
+  color: #fff;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  z-index: 50;
+}
