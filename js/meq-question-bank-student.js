@@ -133,7 +133,7 @@
               ${subtleTag ? `<span class="qb-student-tag-inline">${escapeHtml(subtleTag)}</span>` : ''}
             </div>
             <div class="qb-student-stem">${escapeHtml(stem).replace(/\n/g, '<br />')}</div>
-            <button type="button" class="btn btn-small js-qb-choose"${done ? ' disabled' : ''}>${done ? 'Answered' : 'Choose this question'}</button>
+            <button type="button" class="btn btn-small js-qb-choose">${done ? 'View or edit your answer' : 'Choose this question'}</button>
           </article>
         `;
       }).join('') || '<p class="qb-student-empty">No questions match this filter.</p>';

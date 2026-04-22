@@ -32,4 +32,11 @@
     meqQuestionBankAdmin: () => join('meq-question-bank-admin/'),
     meqQuestionBankStudent: () => join('meq-question-bank/')
   };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var year = String(new Date().getFullYear());
+    document.querySelectorAll('.js-current-year').forEach(function (el) {
+      el.textContent = year;
+    });
+  });
 })();

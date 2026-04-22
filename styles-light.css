@@ -1,4 +1,4 @@
-/* styles-light.css – KTrain (light, easy, colourful) */
+/* styles-light.css – My Psych Training (light, easy, colourful) */
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap');
 
@@ -412,6 +412,15 @@ img { max-width: 100%; height: auto; display: block; }
 .footer-links .footer-course-admin a:hover {
   color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
+}
+.footer-disclaimer {
+  flex: 1 1 100%;
+  margin: 0.25rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.78);
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 /* Page header */
