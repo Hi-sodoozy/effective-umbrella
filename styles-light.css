@@ -417,10 +417,10 @@ img { max-width: 100%; height: auto; display: block; }
   flex: 1 1 100%;
   margin: 0.25rem 0 0;
   font-size: 0.72rem;
-  line-height: 1.25;
+  line-height: 1.4;
   color: rgba(255, 255, 255, 0.78);
-  white-space: nowrap;
-  overflow-x: auto;
+  white-space: normal;
+  overflow: visible;
 }
 
 /* Page header */

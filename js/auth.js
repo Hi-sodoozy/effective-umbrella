@@ -6,6 +6,23 @@
     window.SUPABASE_ANON_KEY || ''
   );
 
+  function setLinkAccess(hrefs, visible) {
+    hrefs.forEach((href) => {
+      document.querySelectorAll('a[href="' + href + '"]').forEach((a) => {
+        const li = a.closest('li');
+        if (li) li.style.display = visible ? '' : 'none';
+      });
+    });
+  }
+
+  function applyAccessVisibility(profile) {
+    const isSuper = !!profile?.is_super_admin;
+    const hasAdmin = isSuper || (profile?.role === 'admin' && profile?.admin_access_enabled === true);
+    setLinkAccess(['admin/', '../admin/', '../../admin/'], hasAdmin);
+    setLinkAccess(['meq-course/', '../meq-course/', '../../meq-course/', 'course-admin/', '../course-admin/'], hasAdmin);
+    setLinkAccess(['admin-signup/', '../admin-signup/', '../../admin-signup/'], isSuper);
+  }
+
   window.ktrainAuth = {
     client,
 
@@ -25,6 +42,14 @@
       const { data, error } = await client.from('profiles').select('*').eq('id', userId).single();
       if (error) return null;
       return data;
+    },
+
+    isSuperAdmin(profile) {
+      return !!profile?.is_super_admin;
+    },
+
+    hasAdminAccess(profile) {
+      return this.isSuperAdmin(profile) || (profile?.role === 'admin' && profile?.admin_access_enabled === true);
     },
 
     async updateProfile(userId, fields) {
@@ -96,4 +121,23 @@
       return client.auth.onAuthStateChange(callback);
     }
   };
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const { data: { session } } = await client.auth.getSession();
+    if (!session?.user) {
+      applyAccessVisibility(null);
+      return;
+    }
+    const profile = await window.ktrainAuth.getProfile(session.user.id);
+    applyAccessVisibility(profile);
+  });
+
+  client.auth.onAuthStateChange(async (_event, session) => {
+    if (!session?.user) {
+      applyAccessVisibility(null);
+      return;
+    }
+    const profile = await window.ktrainAuth.getProfile(session.user.id);
+    applyAccessVisibility(profile);
+  });
 })();

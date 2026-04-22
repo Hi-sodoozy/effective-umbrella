@@ -1,13 +1,14 @@
 /**
  * Ensures user is logged in.
- * Admin role is not required for admin board access.
+ * Access requires admin_access_enabled admin, or super admin.
  */
 (function () {
   window.ktrainAdminGuard = {
     async init(options) {
       const client = window.ktrainSupabase;
-      const redirectLogin = options?.redirectLogin || (typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.admin() : 'admin/');
+      const requireSuperOnly = options?.superOnly === true;
       const loginBase = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.login() : 'login/';
+      const redirectDenied = options?.redirectDenied || (typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.dashboard() : 'dashboard/');
 
       if (!client) {
         const el = document.getElementById('adminGuardRoot');
@@ -19,6 +20,17 @@
       if (!user) {
         const target = window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/';
         window.location.href = loginBase + '?redirect=' + encodeURIComponent(target);
+        return false;
+      }
+
+      const profile = window.ktrainAuth?.getProfile
+        ? await window.ktrainAuth.getProfile(user.id)
+        : (await client.from('profiles').select('*').eq('id', user.id).single()).data;
+      const isSuper = !!profile?.is_super_admin;
+      const hasAdmin = isSuper || (profile?.role === 'admin' && profile?.admin_access_enabled === true);
+      const allowed = requireSuperOnly ? isSuper : hasAdmin;
+      if (!allowed) {
+        document.body.innerHTML = '<p>Access denied.</p><a href="' + redirectDenied + '">Back to dashboard</a>';
         return false;
       }
 

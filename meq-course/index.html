@@ -22,7 +22,7 @@
     </div>
   </header>
 
-  <main class="course-admin-layout">
+  <main id="adminGuardRoot" class="course-admin-layout" hidden>
     <section class="course-admin-intro shell">
       <h1>MEQ course content</h1>
       <p class="course-admin-lead">Edit titles and links for each week of the MEQ programme. Sign in with your normal account if prompted—there is no separate staff password for this page.</p>
@@ -49,6 +49,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
   <script src="../js/auth.js"></script>
+  <script src="../js/admin-guard.js"></script>
   <script src="../js/course-admin.js"></script>
+  <script>
+    window.ktrainAdminGuard.init();
+  </script>
 </body>
 </html>
