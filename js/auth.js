@@ -5,6 +5,7 @@
     window.SUPABASE_URL || '',
     window.SUPABASE_ANON_KEY || ''
   );
+  if (!window.ktrainSupabase && client) window.ktrainSupabase = client;
 
   function setLinkAccess(hrefs, visible) {
     hrefs.forEach((href) => {

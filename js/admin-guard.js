@@ -5,14 +5,18 @@
 (function () {
   window.ktrainAdminGuard = {
     async init(options) {
-      const client = window.ktrainSupabase;
+      const client = window.ktrainSupabase || window.ktrainAuth?.client;
       const requireSuperOnly = options?.superOnly === true;
       const loginBase = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.login() : 'login/';
       const redirectDenied = options?.redirectDenied || (typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.dashboard() : 'dashboard/');
 
       if (!client) {
         const el = document.getElementById('adminGuardRoot');
-        if (el) el.innerHTML = '<p>Configure Supabase in js/supabase-config.js</p>';
+        if (el) {
+          el.hidden = false;
+          el.removeAttribute('hidden');
+          el.innerHTML = '<p>Configure Supabase in js/supabase-config.js</p>';
+        }
         return false;
       }
 
@@ -35,7 +39,10 @@
       }
 
       const el = document.getElementById('adminGuardRoot');
-      if (el) el.hidden = false;
+      if (el) {
+        el.hidden = false;
+        el.removeAttribute('hidden');
+      }
       return true;
     }
   };

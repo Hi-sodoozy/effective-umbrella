@@ -1,5 +1,8 @@
 (function () {
-  const client = window.ktrainSupabase;
+  function getClient() {
+    return window.ktrainSupabase || window.ktrainAuth?.client || null;
+  }
+
   let currentUserId = null;
 
   function escapeHtml(s) {
@@ -79,6 +82,7 @@
   }
 
   async function promoteById(id) {
+    const client = getClient();
     const { error } = await client.from('profiles').update({
       role: 'admin',
       admin_access_enabled: true
@@ -88,6 +92,7 @@
   }
 
   async function demoteById(id) {
+    const client = getClient();
     const { error } = await client.from('profiles').update({
       role: 'user',
       admin_access_enabled: false
@@ -108,13 +113,24 @@
   }
 
   async function init() {
+    const client = getClient();
     if (!client) return;
     const ok = await window.ktrainAdminGuard?.init();
     if (!ok) return;
     const { data: { user } } = await client.auth.getUser();
     currentUserId = user?.id || null;
 
-    await loadData();
+    try {
+      await loadData();
+    } catch (err) {
+      const msg = err?.message || String(err);
+      const listRoot = document.getElementById('adminAccountListRoot');
+      const dirRoot = document.getElementById('adminUserDirectoryRoot');
+      const errHtml = '<p class="course-admin-error" role="alert">Could not load user list: ' + escapeHtml(msg) + '</p>';
+      if (listRoot) listRoot.innerHTML = errHtml;
+      if (dirRoot) dirRoot.innerHTML = errHtml;
+      console.error(err);
+    }
 
     document.getElementById('adminUserSearch')?.addEventListener('input', renderUserDirectory);
 
