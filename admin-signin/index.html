@@ -105,14 +105,6 @@
         try {
           if (!window.ktrainAuth) throw new Error('Supabase not configured.');
           await window.ktrainAuth.signIn(email, password);
-          const session = await window.ktrainAuth.getSession();
-          const profile = session?.user?.id ? await window.ktrainAuth.getProfile(session.user.id) : null;
-          const isSuper = !!profile?.is_super_admin;
-          const hasAdmin = isSuper || (profile?.role === 'admin' && profile?.admin_access_enabled === true);
-          if (!hasAdmin) {
-            await window.ktrainAuth.signOut();
-            throw new Error('Your account is signed in but does not have admin access enabled. Please ask a super admin to grant access.');
-          }
           window.location.href = adminUrl;
         } catch (x) {
           var msg = x && x.message ? x.message : 'Log in failed.';

@@ -16,12 +16,10 @@
     });
   }
 
-  function applyAccessVisibility(profile) {
-    const isSuper = !!profile?.is_super_admin;
-    const hasAdmin = isSuper || (profile?.role === 'admin' && profile?.admin_access_enabled === true);
-    setLinkAccess(['admin/', '../admin/', '../../admin/'], hasAdmin);
-    setLinkAccess(['meq-course/', '../meq-course/', '../../meq-course/', 'course-admin/', '../course-admin/'], hasAdmin);
-    setLinkAccess(['admin-signup/', '../admin-signup/', '../../admin-signup/'], isSuper);
+  function applyAccessVisibility() {
+    setLinkAccess(['admin/', '../admin/', '../../admin/'], true);
+    setLinkAccess(['meq-course/', '../meq-course/', '../../meq-course/', 'course-admin/', '../course-admin/'], true);
+    setLinkAccess(['admin-signup/', '../admin-signup/', '../../admin-signup/'], true);
   }
 
   window.ktrainAuth = {
@@ -109,7 +107,8 @@
     },
 
     async signIn(email, password) {
-      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      const normalizedEmail = String(email || '').trim().toLowerCase();
+      const { data, error } = await client.auth.signInWithPassword({ email: normalizedEmail, password });
       if (error) throw error;
       return data;
     },
