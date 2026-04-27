@@ -19,7 +19,6 @@
   function applyAccessVisibility() {
     setLinkAccess(['admin/', '../admin/', '../../admin/'], true);
     setLinkAccess(['meq-course/', '../meq-course/', '../../meq-course/', 'course-admin/', '../course-admin/'], true);
-    setLinkAccess(['admin-signup/', '../admin-signup/', '../../admin-signup/'], true);
   }
 
   window.ktrainAuth = {
@@ -68,28 +67,6 @@
         password,
         options: {
           data: { full_name, phone, college_id }
-        }
-      });
-      if (error) throw error;
-      if (data.user) {
-        await client.from('profiles').upsert({
-          id: data.user.id,
-          full_name: full_name || data.user.user_metadata?.full_name,
-          email: data.user.email,
-          phone: phone || data.user.user_metadata?.phone,
-          college_id: college_id || data.user.user_metadata?.college_id,
-          role: 'user'
-        }, { onConflict: 'id' });
-      }
-      return data;
-    },
-
-    async signUpAdmin({ email, password, full_name, phone, college_id }) {
-      const { data, error } = await client.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name, phone, college_id, portal: 'admin_signup' }
         }
       });
       if (error) throw error;

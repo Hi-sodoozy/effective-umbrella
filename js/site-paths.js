@@ -24,7 +24,6 @@
     admin: () => join('admin/'),
     meq: () => join('meq/'),
     adminSignin: () => join('admin-signin/'),
-    adminSignup: () => join('admin-signup/'),
     profile: () => join('profile/'),
     courseAdmin: () => join('meq-course/'),
     meqCourse: () => join('meq-course/'),
