@@ -99,15 +99,27 @@
         }
         var err = document.getElementById('loginError');
         err.textContent = '';
-        var email = document.getElementById('email').value;
+        var email = document.getElementById('email').value.trim().toLowerCase();
         var password = document.getElementById('password').value;
         var adminUrl = typeof window.ktrainPaths !== 'undefined' ? window.ktrainPaths.admin() : '../admin/';
         try {
           if (!window.ktrainAuth) throw new Error('Supabase not configured.');
           await window.ktrainAuth.signIn(email, password);
+          const session = await window.ktrainAuth.getSession();
+          const profile = session?.user?.id ? await window.ktrainAuth.getProfile(session.user.id) : null;
+          const isSuper = !!profile?.is_super_admin;
+          const hasAdmin = isSuper || (profile?.role === 'admin' && profile?.admin_access_enabled === true);
+          if (!hasAdmin) {
+            await window.ktrainAuth.signOut();
+            throw new Error('Your account is signed in but does not have admin access enabled. Please ask a super admin to grant access.');
+          }
           window.location.href = adminUrl;
         } catch (x) {
-          err.textContent = x.message || 'Log in failed.';
+          var msg = x && x.message ? x.message : 'Log in failed.';
+          if (/invalid login credentials/i.test(msg)) {
+            msg = 'Incorrect email or password.';
+          }
+          err.textContent = msg;
         }
       });
     })();

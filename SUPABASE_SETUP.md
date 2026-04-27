@@ -47,3 +47,16 @@ If your database was created before these tables existed, run **`supabase-migrat
 ## 8. Exam countdown (students)
 
 Each student’s **`profiles.exam_date`** drives the “X days until your exam” line on the dashboard. Admins set it in **Admin → Students** (date + Save). If your database predates that UI, run **`supabase-migration-admin-update-profiles.sql`** so the “Admins can update other profiles” policy exists.
+
+## 9. Super admin access controls
+
+Run **`supabase-migration-super-admin-access.sql`** to enable super-admin controls and seed the initial super admins:
+
+- `d7e8795c-8e05-4d75-9d67-e7a86b595f26`
+- `f03164f5-448d-4964-93a1-c6ee799ead77`
+
+This migration:
+
+- Adds `profiles.admin_access_enabled` and `profiles.is_super_admin`
+- Updates `public.is_admin()` so access requires either super admin, or role `admin` + `admin_access_enabled = true`
+- Restricts `week_content` and admin question-bank management to `public.is_admin()`
